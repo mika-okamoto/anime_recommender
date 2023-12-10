@@ -1,0 +1,13 @@
+# virtual environments
+.venv/
+venv/
+
+# python
+__pycache__/
+
+# flask
+instance/
+
+app/static/data/anime_pivot.csv
+app/static/data/anime.csv
+app/static/data/rating.csv
