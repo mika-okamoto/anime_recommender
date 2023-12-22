@@ -9,5 +9,29 @@
 <body>
     <div class="title">
         <h1>anime recommender</h1>
+
+        <form method="post" action="" class = 'form-group' enctype="multipart/form-data">
+        
+            <label for="description">pick an anime</label><br>
+
+            <input type="text" id = "anime-name" name = 'anime-name'><br>
+
+            <button id = 'submit'>recommend!</button>
+
+            {% if recs %}
+            
+            <h3>recommendations for {{anime_name}}</h3>
+            {% for rec in recs %}
+            <p id = 'recs'>{{rec}}</p><br>
+            {% endfor %}
+            {% else %}
+
+            {% if anime_name %}
+            <p>Cannot find {{anime_name}}</p>
+            {% endif %}
+
+            {% endif %}
+        </form>
+        
     </div>
 </body>
