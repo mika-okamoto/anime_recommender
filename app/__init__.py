@@ -8,19 +8,6 @@ import pickle
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
-
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
     
     @app.route('/', methods = ("GET", "POST"))
     def index():
@@ -52,3 +39,10 @@ def create_app(test_config=None):
 
 # need anime lookup page/table (query from csv for idx name based on anime_names.csv)
 # ideally search for words (non case sensitive) & translate between engl/japanese to show either
+
+# first fix to be non-case sensitive searching
+# then be able to query for including any one of the words (excluding stopwords)
+# or just search straight out?
+# want to display all of the anime options 
+
+# for more advanced maybe let you click on the anime options to select that as the name and then use that w/ the submit button
