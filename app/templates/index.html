@@ -4,34 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="static/javascript/autocomplete.js"></script>
     <title>anime recommender</title>
 </head>
 <body>
     <div class="title">
         <h1>anime recommender</h1>
-
-        <form method="post" action="" class = 'form-group' enctype="multipart/form-data">
         
-            <label for="description">pick an anime</label><br>
+        <label for="description">pick an anime</label><br>
 
-            <input type="text" id = "anime-name" name = 'anime-name'><br>
+        <div class="autocomplete-container" id = "autocomplete-container"></div>
 
-            <button id = 'submit'>recommend!</button>
+        <button id="add-input">Add Anime</button>
+        <button id="remove-input">Remove Anime</button>
+    
+        <button id = 'recommend-button'>recommend!</button>
 
-            {% if recs %}
-            
-            <h3>recommendations for {{anime_name}}</h3>
-            {% for rec in recs %}
-            <p id = 'recs'>{{rec}}</p><br>
-            {% endfor %}
-            {% else %}
+        <div id = "recommendations-container"></div>
 
-            {% if anime_name %}
-            <p>Cannot find {{anime_name}}</p>
-            {% endif %}
-
-            {% endif %}
-        </form>
+        <div class="container">
+            <h1>Animes</h1>
+            <div>
+                {{ table_html | safe }}
+            </div>
+        </div>
+    
+        <script>
+            $(document).ready(function() {
+                $('.table').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true
+                });
+            });
+        </script>
         
     </div>
 </body>
