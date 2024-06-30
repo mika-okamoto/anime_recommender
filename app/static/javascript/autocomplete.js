@@ -144,6 +144,25 @@ document.addEventListener('DOMContentLoaded', () => {
                             "searching": true,
                             "ordering": true
                         });
+
+                        let button = document.createElement('button')
+                        button.innerHTML = "Learn More!"
+                        container.appendChild(button);
+
+                        let columnValues = [];
+                        $('#recommendations-table tbody tr').each(function() {
+                            let cells = $(this).find('td');
+                            if (cells[1]) {
+                                columnValues.push(cells[1].textContent.trim());
+                            }
+                        });
+
+                        let rec_names = columnValues.join(',');
+
+                        button.addEventListener("click", function() {
+                            let url = "/chatbot?prefs=" + names.join(',') + "&recs=" + rec_names;
+                            window.location.href = url;
+                        });
                         
                     }
                 }).catch(error => console.error('Error:', error));

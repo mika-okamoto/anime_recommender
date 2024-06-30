@@ -4,18 +4,43 @@ from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import pickle
 import jellyfish
+import openai
+import gradio as gr
 
+openai.api_key = ""
 
-def create_app(test_config=None):
-    # create and configure the app
+def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     df = pd.read_csv('app/static/data/anime_df.csv')
-    
+    system_prompt = ""
+
     @app.route('/', methods = ("GET", "POST"))
     def index():
         table_html = df.to_html(classes='table table-striped', index=False, border=0)
         return render_template("index.html", table_html = table_html)
+    
+    @app.route('/chatbot', methods = ("GET", "POST"))
+    def chatbot():
+        global system_prompt
+        prefs, recs = request.args.get('prefs', ''), request.args.get('recs', '')
+        system_prompt = f"You are a helpful chatbot who provides information and recommendations about animes. This user said that they want animes like {prefs}, and was recommended to watch {recs}."
+        return render_template("chatbot.html", prefs = prefs, recs = recs)
+    
+    @app.route('/get_response', methods=['POST'])
+    def get_response():
+        prompt_json = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": request.form['user_message']}
+        ]
+        chat_completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=prompt_json,
+            temperature=0.0,
+            max_tokens=1000
+        )
+        response = chat_completion['choices'][0].message.content
+        return jsonify({'response': response})
 
     @app.route('/autocomplete', methods=['GET'])
     def autocomplete():

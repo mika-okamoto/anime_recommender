@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <script src="static/javascript/chatbot.js"></script>
+    <title>anime recommender</title>
+</head>
+<body>
+    <div class="title">
+        <h1>anime recommender chatbot</h1>
+        
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <form id="message-form">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</body>
